@@ -4,6 +4,7 @@ const roleColors: {[key: string]: string} = {
     'primary': '#4A92E6',
     'error': 'rgb(229, 57, 53)',
     'success': 'green',
+    'default': '#6b6b6b'
 }
 
 export const RoundedButton = styled.button`
@@ -15,4 +16,5 @@ export const RoundedButton = styled.button`
   display: inline-block;
   font-size: inherit;
   cursor: pointer;
+  text-align: center;
 `;

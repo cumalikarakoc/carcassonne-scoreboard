@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Player from '../models/Player';
 import { ActionModal as ActionDialog } from './ActionDialog';
 import { RoundedButton } from './styles/Buttonts';
+import {Robbers} from './Robbers';
 
 interface IProps {
     players: Player[],
@@ -20,30 +21,52 @@ const Table = styled.table`
     border-collapse: collapse;
 `
 
-const TableRow = styled.tr`
+const TableRow = styled.tr<any>`
+    background-color: ${props => props.selected && 'rgba(0,0,0,0.3)'}
 `
 
 const TableCell = styled.td`
+    padding: 5px;
     border: 1px solid grey;
 `
-
 const ActionButton = styled(RoundedButton)`
-    height: 25px;
-    width: 25px;
+    height: 35px;
+    width: 35px;
     padding: 0;
 `
 
-const OffsetAction = styled(ActionButton)`
-    margin-left: 5px;
+const PointsInput = styled.input`
+    width: 100%;
+    height: 30px;
+    font-size: 1rem;
+    box-sizing: border-box;
 `
 
-const RobberContent = styled.div`
-    display: flex;
-    flex-direction: column;
+const TransactionListItem = styled.li`
+    text-align: left;
 `
-const RobberImage = styled.img`
-    width: 20px;
-    height: 20px;
+
+const TransactionList = styled.ul`
+    max-height: 200px;
+    overflow: auto;
+    border: 1px solid black;
+    padding: 5px 25px;
+    margin-top: 0;
+`
+const TransactionListTitle = styled.span`
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+`
+const ActionButtons = styled.div`
+    display: flex;
+    justify-content: space-around;
+    padding: 4px;
+`
+
+const SharePointsOption = styled.span`
+    display: block;
+    padding: 5px;
 `
 
 export const Players = ({ players, setPlayers, saveState }: IProps) => {
@@ -52,27 +75,32 @@ export const Players = ({ players, setPlayers, saveState }: IProps) => {
 
     const getSelectedPlayer = players.find(pl => pl.id === selectedPlayer.id)!;
 
-    const [points, setPoints] = useState(0);
+    const [points, setPoints] = useState<any>(undefined);
     const [shareWithRobbers, setShareWithRobbers] = useState(false);
 
     const setPlayerPoints = (players: Player[], player: Player, points: number, shareWithRobbers: boolean) => {
+        if(!(points as number)){
+            return;
+        }
         const robbersOfPlayer = getSelectedPlayer.robbers;
 
         const updatedPlayers = players
         .map(p => p.id === selectedPlayer.id
-            ? { ...p, points: p.points + points, 
+            ? { ...p, points: p.points + points,
                 robbers: shareWithRobbers ? [] : p.robbers,
-                transactions: [(points > 0 ? 'received' : 'lost') + ' ' + Math.abs(points) + " points", ...p.transactions] }
+                transactions: [Math.abs(points) + ' punten ' + (points > 0 ? 'ontvangen' : 'verloren'), ...p.transactions] }
             : p)
         .map(p => shareWithRobbers && robbersOfPlayer.includes(p.id) ? {
             ...p, points: p.points + Math.ceil(points / 2),
-            transactions: [...p.transactions, 'Robbed ' + points + ' points from ' + getSelectedPlayer.color]
+            transactions: [Math.ceil(points / 2) + ' punten gejat van ' + getSelectedPlayer.color, ...p.transactions]
         } : p);
 
 
         setPlayers(updatedPlayers);
 
-        setPoints(0);
+        setPoints(undefined);
+
+        setShareWithRobbers(false)
 
         saveState(updatedPlayers);
     }
@@ -86,62 +114,44 @@ export const Players = ({ players, setPlayers, saveState }: IProps) => {
     }
 
     return <div>
-        {shownDialogName !== "" && <ActionDialog onClick={() => { setShownDialogName("") }}>
-            {shownDialogName === "robbers" && <div>
-                <h1>Robbers</h1>
-                {players.filter(robber => robber.id !== selectedPlayer.id).map(robber => <div key={robber.id}><RobberImage src={robber.imageUrl} />
-                    <input type="checkbox" checked={getSelectedPlayer.robbers.includes(robber.id)}
-                        onClick={e => e.stopPropagation()}
-                        onChange={e => {
-                            const updatedPlayers = players.map(playerToUpdate => {
-                                return (playerToUpdate.id === selectedPlayer.id ? {
-                                    ...playerToUpdate,
-                                    robbers: (e.target as any).checked
-                                        ? [...playerToUpdate.robbers, robber.id]
-                                        : playerToUpdate.robbers.filter(robberId => robberId !== robber.id)
-                                } : playerToUpdate)
-                            });
-                            setPlayers(updatedPlayers);
-
-                            saveState(updatedPlayers);
-                        }} /></div>)}
-            </div>}
-            {shownDialogName === "points" && <div>
-                <h1>Points</h1>
+        {shownDialogName !== "" && <ActionDialog title={shownDialogName} closeDialog={() => { setShownDialogName(""); setPoints(undefined) }}>
+            {shownDialogName === "Rovers" && <Robbers players={players} selectedPlayer={selectedPlayer} setPlayers={setPlayers} saveState={saveState} />}
+            {shownDialogName === "Punten" && <div>
                 {getSelectedPlayer.robbers.length > 0 &&
-                <>Share points with robbers: <input type="checkbox" checked={shareWithRobbers}
-                onClick= {e => e.stopPropagation()}
+                <SharePointsOption><label htmlFor="shareWithRobbers">Share points with robbers:</label><input type="checkbox" id="shareWithRobbers" checked={shareWithRobbers}
                 onChange={e => {
                     setShareWithRobbers(!shareWithRobbers)
-                }}/> </>}
-                <input type="number" value={points} autoFocus onClick={e => e.stopPropagation()} onChange={e => setPoints(parseInt(e.target.value, 10))} />
-                <ActionButton role="success" onClick={e => {
-                    setPlayerPoints(players, getSelectedPlayer, points, shareWithRobbers);
-                }}>+</ActionButton>
-                <ActionButton role="error" onClick={e => {
-                    setPlayerPoints(players, getSelectedPlayer, -points, false);
-                }}>-</ActionButton>
+                }}/> </SharePointsOption>}
+                <PointsInput type="number" value={points || ''} onChange={e => setPoints(parseInt(e.target.value, 10))} />
+                <ActionButtons>
+                    <ActionButton role="success" onClick={e => {
+                        setPlayerPoints(players, getSelectedPlayer, points, shareWithRobbers);
+                    }}>+</ActionButton>
+                    <ActionButton role="error" onClick={e => {
+                        setPlayerPoints(players, getSelectedPlayer, -points, false);
+                    }}>-</ActionButton>
+                </ActionButtons>
 
-
-                <ul>
-                    {getSelectedPlayer.transactions.map((t, index) => <li key={index}>{t}</li>)}
-                </ul>
+                <TransactionListTitle>Transacties</TransactionListTitle>
+                <TransactionList>
+                    {getSelectedPlayer.transactions.length > 0 ? getSelectedPlayer.transactions.map((t, index) => <TransactionListItem key={index}>{t}</TransactionListItem>)
+                        : <p>Geen transacties gevonden.</p>}
+                </TransactionList>
             </div>}
         </ActionDialog>}
         <Table>
             <thead>
-                <tr><th>Player</th><th>Rovers</th><th>Points</th><th>Actions</th></tr>
+                <tr><th>Speler</th><th>Rovers</th><th>Punten</th></tr>
             </thead>
             <tbody>
-                {players.map(p => <TableRow key={p.id}>
-                    <TableCell><PlayerImage src={p.imageUrl} /></TableCell>
-                    <TableCell>{p.robbers.map(roverId => <PlayerImage key={roverId} src={players.find(player => player.id === roverId)!.imageUrl} />)}</TableCell>
-                    <TableCell>{p.points}</TableCell>
-                    <TableCell>
-                        <ActionButton role="error" onClick={() => showDialog("robbers", p)}>R</ActionButton>
-                        <OffsetAction role="success" onClick={() => showDialog("points", p)}>P</OffsetAction>
-                    </TableCell>
-                </TableRow>)}
+                {players.map(p =>
+                        <TableRow key={p.id} selected={shownDialogName !== '' && p.id === selectedPlayer.id}>
+                        <TableCell><PlayerImage src={p.imageUrl} /></TableCell>
+                        <TableCell onClick={() => showDialog("Rovers", p)}>{p.robbers.map(roverId =>
+                            <PlayerImage key={roverId} src={players.find(player => player.id === roverId)!.ownRobberImageUrl} />)}</TableCell>
+                        <TableCell onClick={() => showDialog("Punten", p)}>{p.points}</TableCell>
+                    </TableRow>
+                )}
             </tbody>
         </Table>
     </div>
