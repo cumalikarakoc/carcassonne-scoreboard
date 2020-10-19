@@ -6,12 +6,12 @@ import Player from './models/Player';
 import {RoundedButton} from './components/styles/Buttonts';
 import styled from 'styled-components';
 
-const DEFAULT_PLAYERS = [
+const DEFAULT_PLAYERS: any[] = [
     {
         id: 1,
         color: 'Zwart',
-        imageUrl: require('./assets/black_player.png'),
-        ownRobberImageUrl: require('./assets/black_robber.png'),
+        imageUrl: 'assets/black_player.png',
+        ownRobberImageUrl: 'assets/black_robber.png',
         selected: false,
         points: 0,
         robbers: [],
@@ -19,9 +19,9 @@ const DEFAULT_PLAYERS = [
     },
     {
         id: 2,
-        color: 'Blauw',
-        imageUrl: require('./assets/blue_player.png'),
-        ownRobberImageUrl: require('./assets/blue_robber.png'),
+        color: 'Geel',
+        imageUrl: 'assets/yellow_player.png',
+        ownRobberImageUrl: 'assets/yellow_robber.png',
         selected: false,
         points: 0,
         robbers: [],
@@ -30,8 +30,8 @@ const DEFAULT_PLAYERS = [
     {
         id: 3,
         color: 'Groen',
-        imageUrl: require('./assets/green_player.png'),
-        ownRobberImageUrl: require('./assets/green_robber.png'),
+        imageUrl: 'assets/green_player.png',
+        ownRobberImageUrl: 'assets/green_robber.png',
         selected: false,
         points: 0,
         robbers: [],
@@ -39,9 +39,9 @@ const DEFAULT_PLAYERS = [
     },
     {
         id: 4,
-        color: 'Roos',
-        imageUrl: require('./assets/pink_player.png'),
-        ownRobberImageUrl: require('./assets/pink_robber.png'),
+        color: 'Blauw',
+        imageUrl: 'assets/blue_player.png',
+        ownRobberImageUrl: 'assets/blue_robber.png',
         selected: false,
         points: 0,
         robbers: [],
@@ -49,9 +49,9 @@ const DEFAULT_PLAYERS = [
     },
     {
         id: 5,
-        color: 'Rood',
-        imageUrl: require('./assets/red_player.png'),
-        ownRobberImageUrl: require('./assets/red_robber.png'),
+        color: 'Roos',
+        imageUrl: 'assets/pink_player.png',
+        ownRobberImageUrl: 'assets/pink_robber.png',
         selected: false,
         points: 0,
         robbers: [],
@@ -59,15 +59,16 @@ const DEFAULT_PLAYERS = [
     },
     {
         id: 6,
-        color: 'Geel',
-        imageUrl: require('./assets/yellow_player.png'),
-        ownRobberImageUrl: require('./assets/yellow_robber.png'),
+        color: 'Rood',
+        imageUrl: 'assets/red_player.png',
+        ownRobberImageUrl: 'assets/red_robber.png',
         selected: false,
         points: 0,
         robbers: [],
         transactions: []
     },
 ];
+
 
 const ResetButton = styled(RoundedButton)`
   margin-top: 100px;
@@ -101,7 +102,7 @@ function App() {
     }
 
     const resetGame = () => {
-        if (!window.confirm('Weet je zeker dat je het spel wil stoppen?')) {
+        if (!window.confirm('Weet je zeker dat je het spel wil afronden?')) {
             return;
         }
         localStorage.removeItem("players");

@@ -50,7 +50,7 @@ export const Robbers = ({players, selectedPlayer, setPlayers, saveState}: IProps
         <RobberGrid>
             {robbers.length > 0 ? robbers.map(robber => <RobberCard onClick={() => handleChange(robber)} key={robber.id}>
                 <RobberImage
-                    src={robber.ownRobberImageUrl}/>
+                    src={require(`../${robber.ownRobberImageUrl}`)}/>
                 <input type="checkbox" checked={getSelectedPlayer.robbers.includes(robber.id)}
                        onChange={() => handleChange(robber)}/></RobberCard>)
             : <p>Er zijn geen rovers beschikbaar.</p>}

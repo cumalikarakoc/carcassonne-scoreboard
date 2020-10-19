@@ -146,9 +146,9 @@ export const Players = ({ players, setPlayers, saveState }: IProps) => {
             <tbody>
                 {players.map(p =>
                         <TableRow key={p.id} selected={shownDialogName !== '' && p.id === selectedPlayer.id}>
-                        <TableCell><PlayerImage src={p.imageUrl} /></TableCell>
+                        <TableCell><PlayerImage src={require(`../${p.imageUrl}`)} /></TableCell>
                         <TableCell onClick={() => showDialog("Rovers", p)}>{p.robbers.map(roverId =>
-                            <PlayerImage key={roverId} src={players.find(player => player.id === roverId)!.ownRobberImageUrl} />)}</TableCell>
+                            <PlayerImage key={roverId} src={require(`../${players.find(player => player.id === roverId)!.ownRobberImageUrl}`)} />)}</TableCell>
                         <TableCell onClick={() => showDialog("Punten", p)}>{p.points}</TableCell>
                     </TableRow>
                 )}

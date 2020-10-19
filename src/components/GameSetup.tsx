@@ -50,7 +50,7 @@ export const GameSetup = ({players, setPlayers, onStart} : IProps) => {
         <PlayerGrid>
             {players.map(p => {
                 return <PlayerCard key={p.id} onClick={() => handleChange(p)}>
-                    <PlayerImage src={p.imageUrl} />
+                    <PlayerImage src={require(`../${p.imageUrl}`)} />
                     <Checkbox type="checkbox" checked={p.selected} onChange={() => handleChange(p)} />
                 </PlayerCard>
             })
