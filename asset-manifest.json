@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/carcassonne-scoreboard/static/css/main.fab446ce.chunk.css",
+    "main.js": "/carcassonne-scoreboard/static/js/main.909c05a2.chunk.js",
+    "main.js.map": "/carcassonne-scoreboard/static/js/main.909c05a2.chunk.js.map",
+    "runtime-main.js": "/carcassonne-scoreboard/static/js/runtime-main.7fbbb93c.js",
+    "runtime-main.js.map": "/carcassonne-scoreboard/static/js/runtime-main.7fbbb93c.js.map",
+    "static/js/2.69f096f3.chunk.js": "/carcassonne-scoreboard/static/js/2.69f096f3.chunk.js",
+    "static/js/2.69f096f3.chunk.js.map": "/carcassonne-scoreboard/static/js/2.69f096f3.chunk.js.map",
+    "index.html": "/carcassonne-scoreboard/index.html",
+    "precache-manifest.edc179c84b071cd49e2bc56b09d1f1e9.js": "/carcassonne-scoreboard/precache-manifest.edc179c84b071cd49e2bc56b09d1f1e9.js",
+    "service-worker.js": "/carcassonne-scoreboard/service-worker.js",
+    "static/css/main.fab446ce.chunk.css.map": "/carcassonne-scoreboard/static/css/main.fab446ce.chunk.css.map",
+    "static/js/2.69f096f3.chunk.js.LICENSE.txt": "/carcassonne-scoreboard/static/js/2.69f096f3.chunk.js.LICENSE.txt",
+    "static/media/black_robber.png": "/carcassonne-scoreboard/static/media/black_robber.eafadc4b.png",
+    "static/media/blue_robber.png": "/carcassonne-scoreboard/static/media/blue_robber.4971e69e.png",
+    "static/media/green_player.png": "/carcassonne-scoreboard/static/media/green_player.34893256.png",
+    "static/media/green_robber.png": "/carcassonne-scoreboard/static/media/green_robber.b90ecfeb.png",
+    "static/media/logo.svg": "/carcassonne-scoreboard/static/media/logo.ee7cd8ed.svg",
+    "static/media/pink_robber.png": "/carcassonne-scoreboard/static/media/pink_robber.04840604.png",
+    "static/media/red_player.png": "/carcassonne-scoreboard/static/media/red_player.cbe17d0f.png",
+    "static/media/red_robber.png": "/carcassonne-scoreboard/static/media/red_robber.4e4771ff.png",
+    "static/media/yellow_robber.png": "/carcassonne-scoreboard/static/media/yellow_robber.b2e1b188.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7fbbb93c.js",
+    "static/js/2.69f096f3.chunk.js",
+    "static/css/main.fab446ce.chunk.css",
+    "static/js/main.909c05a2.chunk.js"
+  ]
+}
